@@ -106,9 +106,6 @@ class Home extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 5, bottom: 5),
                             child: InkWell(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) =>
-                                        AuthorDetails(author: author)));
                               },
                               splashColor: Colors.white,
                               child: Container(
