@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:podfy/components/button/button.dart';
-import 'package:podfy/screens/home/home.dart';
+import 'package:podfy/pages/home/home.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
@@ -116,8 +116,11 @@ class LoginState extends State<Login> {
                             setState(() {
                               buttonPressed = true;
                             });
-                            if (_key.currentState!.validate()) {
-                              const Home();
+                            if (!_key.currentState!.validate()) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => const Home()),
+                              );
                             }
                           },
                         ),

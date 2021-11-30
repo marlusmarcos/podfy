@@ -1,37 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:podfy/blocs/navigation-bloc.dart';
 import 'package:podfy/models/nav/nav_item.dart';
 import 'package:podfy/models/nav/tab_navigator_routes.dart';
-import 'package:podfy/screens/home/home.dart';
-import 'package:podfy/screens/player/player-browser.dart';
-import 'package:podfy/screens/profile/profile-browser.dart';
-import 'package:podfy/screens/search/search-browser.dart';
+import 'package:podfy/pages/home/home.dart';
+import 'package:podfy/pages/player/player-browser.dart';
+import 'package:podfy/pages/profile/profile-browser.dart';
+import 'package:podfy/pages/search/search-browser.dart';
 import 'package:provider/provider.dart';
 
-class NavigationMenu extends StatelessWidget {
+class NavigationMenu extends StatefulWidget {
   NavigationMenu({Key? key}) : super(key: key);
 
-  final List<NavItem> _navItens = [
-    NavItem('/home', 0),
-    NavItem('/search', 1),
-    NavItem('/player', 2),
-    NavItem('/profile', 3),
-  ];
-  int selectedIndex = 0;
+  @override
+  State<NavigationMenu> createState() => _NavigationMenuState();
+}
 
-
-  Map<String, WidgetBuilder> _routeBuilders(BuildContext context,
-      {int materialIndex: 500}) {
-    return {
-      TabNavigatorRoutes.home: (context) => Home(),
-      TabNavigatorRoutes.search: (context) => SearchBrowser(),
-      TabNavigatorRoutes.player: (context) => PlayerBrowser(),
-      TabNavigatorRoutes.profile: (context) => ProfileBrowser(),
-    };
+class _NavigationMenuState extends State<NavigationMenu> {
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final _index = context.watch<NavigationBloc>().selectedIndex;
+
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -52,8 +46,9 @@ class NavigationMenu extends StatelessWidget {
         ),
       ],
       type: BottomNavigationBarType.fixed,
-      currentIndex: selectedIndex,
+      currentIndex: _index,
       onTap: (index) {
+        context.read<NavigationBloc>().aoNavegar(index, context);
       },
       selectedItemColor: Colors.deepPurpleAccent,
     );
