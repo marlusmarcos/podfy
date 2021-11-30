@@ -36,7 +36,7 @@ class AuthorDetailsState extends State<AuthorDetails> {
   AuthorDetailsState(Author author);
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
     filteredAudios = audios;
   }
