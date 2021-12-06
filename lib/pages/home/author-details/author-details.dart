@@ -17,7 +17,7 @@ class AuthorDetails extends StatefulWidget {
   const AuthorDetails({Key? key, required this.author}) : super(key: key);
 
   @override
-  AuthorDetailsState createState() => AuthorDetailsState(this.author);
+  AuthorDetailsState createState() => AuthorDetailsState();
 }
 
 class AuthorDetailsState extends State<AuthorDetails> {
@@ -31,9 +31,6 @@ class AuthorDetailsState extends State<AuthorDetails> {
   ];
   late List<Audio> filteredAudios;
   TextEditingController editingController = TextEditingController();
-  late Author author;
-
-  AuthorDetailsState(Author author);
 
   @override
   void initState() {
@@ -72,7 +69,7 @@ class AuthorDetailsState extends State<AuthorDetails> {
           backgroundColor: Colors.deepPurple,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
-            title: Text(author.name),
+            title: Text(widget.author.name),
             background: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -80,7 +77,7 @@ class AuthorDetailsState extends State<AuthorDetails> {
                   colorFilter: ColorFilter.mode(
                       Colors.black.withOpacity(0.3), BlendMode.dstATop),
                   image: NetworkImage(
-                    "https://picsum.photos/id/${author.id}/400",
+                    "https://picsum.photos/id/${widget.author.id}/400",
                   ),
                 ),
               ),
@@ -92,7 +89,7 @@ class AuthorDetailsState extends State<AuthorDetails> {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: Text(
-                author.description,
+                widget.author.description,
                 style: const TextStyle(fontSize: 16),
               ),
             ),

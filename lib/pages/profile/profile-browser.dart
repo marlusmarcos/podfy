@@ -39,7 +39,7 @@ class ProfileBrowser extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.only(bottom: 4.0),
                           child: Text(
-                            '',
+                            'Nome do Usuário',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, color: Colors.black54, fontSize: 24),
                           ),

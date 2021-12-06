@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
             children: <Widget>[
               const Center(
                 child: Text(
-                  'Olá,!',
+                  'Olá, Fulano!',
                   style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -106,6 +106,10 @@ class Home extends StatelessWidget {
                             margin: const EdgeInsets.only(right: 5, bottom: 5),
                             child: InkWell(
                               onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => AuthorDetails(author: author)),
+                                );
                               },
                               splashColor: Colors.white,
                               child: Container(
