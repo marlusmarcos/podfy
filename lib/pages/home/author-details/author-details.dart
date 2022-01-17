@@ -1,15 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:podfy/components/navbar/navigation-menu.dart';
-import 'package:podfy/models/user/author.dart';
+import 'package:podfy/data/models/author.dart';
+import 'package:podfy/data/models/podcast.dart';
 
-class Audio {
-  String title;
-  String author;
-  String duration;
-
-  Audio(this.title, this.author, this.duration);
-}
 
 class AuthorDetails extends StatefulWidget {
   final Author author;
@@ -21,38 +15,38 @@ class AuthorDetails extends StatefulWidget {
 }
 
 class AuthorDetailsState extends State<AuthorDetails> {
-  List<Audio> audios = [
-    Audio('Episódio #1', 'Flutter', '3:04'),
-    Audio('Episódio #2', 'React Native', '3:04'),
-    Audio('Episódio #3', 'Front end', '3:04'),
-    Audio('Episódio #4', 'C#', '3:04'),
-    Audio('Episódio #5', 'Xamarin Forms', '3:04'),
-    Audio('Episódio #6', 'Flutter', '3:04'),
+  List<Podcast> Podcasts = [
+    Podcast('Episódio #1', 'Flutter', '3:04'),
+    Podcast('Episódio #2', 'React Native', '3:04'),
+    Podcast('Episódio #3', 'Front end', '3:04'),
+    Podcast('Episódio #4', 'C#', '3:04'),
+    Podcast('Episódio #5', 'Xamarin Forms', '3:04'),
+    Podcast('Episódio #6', 'Flutter', '3:04'),
   ];
-  late List<Audio> filteredAudios;
+  late List<Podcast> filteredPodcasts;
   TextEditingController editingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    filteredAudios = audios;
+    filteredPodcasts = Podcasts;
   }
 
-  void filterAudios(String query) {
-    List<Audio> _listAux = <Audio>[];
+  void filterPodcasts(String query) {
+    List<Podcast> _listAux = <Podcast>[];
     if (query.isNotEmpty) {
-      audios.forEach((audio) {
-        if (audio.title.toLowerCase().contains(query) ||
-            audio.author.toLowerCase().contains(query)) {
-          _listAux.add(audio);
+      Podcasts.forEach((Podcast) {
+        if (Podcast.title.toLowerCase().contains(query) ||
+            Podcast.author.toLowerCase().contains(query)) {
+          _listAux.add(Podcast);
         }
       });
       setState(() {
-        filteredAudios = _listAux;
+        filteredPodcasts = _listAux;
       });
     } else {
       setState(() {
-        filteredAudios = audios;
+        filteredPodcasts = Podcasts;
       });
     }
   }
@@ -107,7 +101,7 @@ class AuthorDetailsState extends State<AuthorDetails> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: TextField(
                 onChanged: (value) {
-                  filterAudios(value);
+                  filterPodcasts(value);
                 },
                 controller: editingController,
                 decoration: const InputDecoration(
@@ -118,7 +112,7 @@ class AuthorDetailsState extends State<AuthorDetails> {
                         borderRadius: BorderRadius.all(Radius.circular(10.0)))),
               ),
             ),
-            filteredAudios.isNotEmpty
+            filteredPodcasts.isNotEmpty
                 ? Flexible(
                     fit: FlexFit.loose,
                     child: Container(
@@ -130,20 +124,20 @@ class AuthorDetailsState extends State<AuthorDetails> {
                           physics: const ScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
-                          itemCount: filteredAudios.length,
+                          itemCount: filteredPodcasts.length,
                           itemBuilder: (context, index) {
                             return FlatButton(
                               onPressed: () {},
                               child: ListTile(
                                 title: Text(
-                                  filteredAudios[index].title,
+                                  filteredPodcasts[index].title,
                                   style: const TextStyle(
                                       color: Colors.deepPurple,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                subtitle: Text(filteredAudios[index].author),
+                                subtitle: Text(filteredPodcasts[index].author),
                                 trailing: Text(
-                                  filteredAudios[index].duration,
+                                  filteredPodcasts[index].duration,
                                   style:
                                       const TextStyle(color: Colors.deepPurple),
                                 ),

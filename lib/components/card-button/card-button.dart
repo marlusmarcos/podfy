@@ -1,14 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-class CardItem {
-  String title;
-  String subtitle;
-  String imagePath;
-  Function onClick;
-
-  CardItem(this.title, this.subtitle, this.imagePath, this.onClick);
-}
+import 'package:podfy/data/models/card_item.dart';
 
 class CardButton extends StatelessWidget {
   CardItem item;

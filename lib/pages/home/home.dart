@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:podfy/components/card-button/card-button.dart';
 import 'package:podfy/components/navbar/navigation-menu.dart';
-import 'package:podfy/models/user/author.dart';
+import 'package:podfy/data/models/author.dart';
+import 'package:podfy/data/models/card_item.dart';
 import 'package:provider/provider.dart';
 
 import 'author-details/author-details.dart';
