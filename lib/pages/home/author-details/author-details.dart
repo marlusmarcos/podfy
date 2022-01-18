@@ -16,12 +16,6 @@ class AuthorDetails extends StatefulWidget {
 
 class AuthorDetailsState extends State<AuthorDetails> {
   List<Podcast> Podcasts = [
-    Podcast('Episódio #1', 'Flutter', '3:04'),
-    Podcast('Episódio #2', 'React Native', '3:04'),
-    Podcast('Episódio #3', 'Front end', '3:04'),
-    Podcast('Episódio #4', 'C#', '3:04'),
-    Podcast('Episódio #5', 'Xamarin Forms', '3:04'),
-    Podcast('Episódio #6', 'Flutter', '3:04'),
   ];
   late List<Podcast> filteredPodcasts;
   TextEditingController editingController = TextEditingController();
@@ -36,8 +30,8 @@ class AuthorDetailsState extends State<AuthorDetails> {
     List<Podcast> _listAux = <Podcast>[];
     if (query.isNotEmpty) {
       Podcasts.forEach((Podcast) {
-        if (Podcast.title.toLowerCase().contains(query) ||
-            Podcast.author.toLowerCase().contains(query)) {
+        if (Podcast.titulo.toLowerCase().contains(query) ||
+            Podcast.autor.toLowerCase().contains(query)) {
           _listAux.add(Podcast);
         }
       });
@@ -130,14 +124,14 @@ class AuthorDetailsState extends State<AuthorDetails> {
                               onPressed: () {},
                               child: ListTile(
                                 title: Text(
-                                  filteredPodcasts[index].title,
+                                  filteredPodcasts[index].titulo,
                                   style: const TextStyle(
                                       color: Colors.deepPurple,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                subtitle: Text(filteredPodcasts[index].author),
+                                subtitle: Text(filteredPodcasts[index].autor),
                                 trailing: Text(
-                                  filteredPodcasts[index].duration,
+                                  filteredPodcasts[index].duracao,
                                   style:
                                       const TextStyle(color: Colors.deepPurple),
                                 ),

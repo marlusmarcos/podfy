@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:podfy/data/models/card_item.dart';
+import 'package:podfy/data/models/podcast.dart';
 
 class CardButton extends StatelessWidget {
-  CardItem item;
+  Podcast item;
 
   CardButton({Key? key, required this.item}) : super(key: key);
 
@@ -38,14 +38,14 @@ class CardButton extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          item.title,
+                          item.titulo,
                           style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.deepPurple),
                         ),
                         Text(
-                          item.subtitle,
+                          item.subtitulo,
                           style: const TextStyle(
                               fontSize: 12, color: Colors.deepPurple),
                         )

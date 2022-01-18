@@ -8,6 +8,9 @@ import 'package:podfy/pages/search/search-browser.dart';
 import 'package:podfy/pages/login/login.dart';
 import 'package:provider/provider.dart';
 
+import 'core/constants.dart';
+import 'data/services/podcast_service.dart';
+
 init() async {
   runApp(PodSheetsApp());
 }
@@ -18,6 +21,7 @@ class PodSheetsApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NavigationBloc()),
+        Provider(create: (_) => PodcastService(Constants.apiUrl + '/podcasts'))
       ],
       child: MaterialApp(
         title: 'Podfy',

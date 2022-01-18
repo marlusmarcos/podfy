@@ -2,33 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:podfy/components/card-button/card-button.dart';
 import 'package:podfy/components/navbar/navigation-menu.dart';
 import 'package:podfy/data/models/author.dart';
-import 'package:podfy/data/models/card_item.dart';
+import 'package:podfy/data/models/podcast.dart';
+import 'package:podfy/data/services/podcast_service.dart';
 import 'package:provider/provider.dart';
 
 import 'author-details/author-details.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List<Podcast> podcasts = [];
+  List<Author> autores = [];
+  late PodcastService podcastService;
+
+  @override
+  void initState() {
+    super.initState();
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+
+      });
+  }
+
+  Future<List<Podcast>> buscarRecentes(){ 
+    return podcastService.listar();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final List<CardItem> cards = [
-      CardItem('Episódio #3', 'DevCast', 'imagePath', () {}),
-      CardItem('Episódio #1', '4DevsCast', 'imagePath', () {}),
-      CardItem('Episódio #1', 'PyGirls', 'imagePath', () {}),
-      CardItem('Episódio #4', 'DevCast', 'imagePath', () {}),
-      CardItem('Episódio #5', 'DevCast', 'imagePath', () {}),
-      CardItem('Episódio #6', 'DevCast', 'imagePath', () {}),
-    ];
-    final List<Author> authors = [
-      Author('DevCast', 'Um podcast para desenvolvedores', 1),
-      Author('4DevsCast', 'Feito por devs para devs', 2),
-      Author('Flow Podcast', '', 4),
-      Author('Meu Podcast', '', 5),
-      Author('Podcast XX', '', 6),
-      Author('Podcast XXX', '', 7),
-      Author('Podcast IV', '', 8),
-    ];
+                podcastService = context.watch<PodcastService>();
 
     return Scaffold(
       backgroundColor: Colors.grey[200],
@@ -71,15 +77,23 @@ class Home extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: ListView(
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            children: cards.map((card) {
-                              return CardButton(
-                                item: card,
-                              );
-                            }).toList()),
+                        child: FutureBuilder<List<Podcast>>(
+                          future: buscarRecentes(),
+                          builder: (ctx, snapshot) {
+                            if (snapshot.hasData && snapshot.data != null) {
+                              return ListView(
+                                  physics: const BouncingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  children: snapshot.data!.toList().map((podcast) {
+                                    return CardButton(
+                                      item: podcast,
+                                    );
+                                  }).toList());
+                            }
+                            return const CircularProgressIndicator();
+                          },
+                        ),
                       ),
                     ],
                   )),
@@ -90,7 +104,7 @@ class Home extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: const Text(
-                        'PodCasts',
+                        'Autores',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -101,7 +115,7 @@ class Home extends StatelessWidget {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisCount: 3,
-                      children: authors.map((author) {
+                      children: autores.map((author) {
                         return Container(
                             color: Colors.deepPurple,
                             margin: const EdgeInsets.only(right: 5, bottom: 5),
@@ -109,7 +123,9 @@ class Home extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => AuthorDetails(author: author)),
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AuthorDetails(author: author)),
                                 );
                               },
                               splashColor: Colors.white,

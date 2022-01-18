@@ -1,3 +1,3 @@
 abstract class HttpClient<T> {
-  List<T> listar();
+  Future<List<T>> listar();
 }
