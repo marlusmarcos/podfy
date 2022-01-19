@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:podfy/components/button/button.dart';
+import 'package:podfy/data/services/auth_service.dart';
 import 'package:podfy/pages/home/home.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +21,7 @@ class LoginState extends State<Login> {
   final _key = GlobalKey<FormState>();
   var _data = new AuthenticationFormData();
   bool buttonPressed = false;
+  late AuthService authService;
 
   LoginState();
 
@@ -46,6 +45,7 @@ class LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    authService = context.read<AuthService>();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -113,16 +113,20 @@ class LoginState extends State<Login> {
                           isOutline: false,
                           enabled: true,
                           text: 'ENTRAR',
-                          onPressed: () {
+                          onPressed: () async {
                             setState(() {
                               buttonPressed = true;
                             });
-                            if (!_key.currentState!.validate()) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Home()),
-                              );
+                            if (true) {
+                              var res = await authService.entrar(
+                                  _data.username, _data.password);
+                              if (res != null) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()),
+                                );
+                              }
                             }
                           },
                         ),
