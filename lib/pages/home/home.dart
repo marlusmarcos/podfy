@@ -23,19 +23,16 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-
-      });
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
   }
 
-  Future<List<Podcast>> buscarRecentes(){ 
-    return podcastService.listar();
+  Future<List<Podcast>> buscarRecentes() {
+    return podcastService.listarRecentes();
   }
 
   @override
   Widget build(BuildContext context) {
-                podcastService = context.watch<PodcastService>();
-
+    podcastService = context.watch<PodcastService>();
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -85,7 +82,8 @@ class _HomeState extends State<Home> {
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
-                                  children: snapshot.data!.toList().map((podcast) {
+                                  children:
+                                      snapshot.data!.toList().map((podcast) {
                                     return CardButton(
                                       item: podcast,
                                     );

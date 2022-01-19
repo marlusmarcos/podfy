@@ -1,16 +1,14 @@
 import 'dart:convert';
 
-import 'package:podfy/core/http/http_client.dart';
 import 'package:podfy/data/models/podcast.dart';
 import 'package:http/http.dart' as http;
 
-class PodcastService implements HttpClient<Podcast> {
+class PodcastService {
   final String baseUrl;
 
   const PodcastService(this.baseUrl);
 
-  @override
-  Future<List<Podcast>> listar() async {
+  Future<List<Podcast>> listarRecentes() async {
     try {
       var url = Uri.parse(baseUrl);
       var res = await http.get(url);
@@ -21,4 +19,6 @@ class PodcastService implements HttpClient<Podcast> {
       throw Exception('e');
     }
   }
+  // TODO: Listar os podcasts de um autor
+  // TODO: Listar todos os podcasts para a aba de pesqquisar
 }
