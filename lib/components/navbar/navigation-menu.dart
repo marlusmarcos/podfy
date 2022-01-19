@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:podfy/blocs/navigation-bloc.dart';
-import 'package:podfy/models/nav/nav_item.dart';
-import 'package:podfy/models/nav/tab_navigator_routes.dart';
 import 'package:podfy/pages/home/home.dart';
 import 'package:podfy/pages/player/player-browser.dart';
 import 'package:podfy/pages/profile/profile-browser.dart';

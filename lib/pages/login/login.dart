@@ -52,7 +52,8 @@ class LoginState extends State<Login> {
           child: SingleChildScrollView(
         child: Container(
             height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +120,8 @@ class LoginState extends State<Login> {
                             if (!_key.currentState!.validate()) {
                               Navigator.pushReplacement(
                                 context,
-                                MaterialPageRoute(builder: (context) => const Home()),
+                                MaterialPageRoute(
+                                    builder: (context) => const Home()),
                               );
                             }
                           },
