@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:podfy/components/navbar/navigation-menu.dart';
+import 'package:podfy/data/services/auth_service.dart';
+import 'package:provider/src/provider.dart';
 
 class ProfileBrowser extends StatelessWidget {
   ProfileBrowser({Key? key}) : super(key: key);
@@ -99,6 +101,10 @@ class ProfileBrowser extends StatelessWidget {
                                       color: Colors.deepPurple, fontWeight: FontWeight.bold),
                                 ),
                                 onTap: () async {
+                                    final res = await context.read<AuthService>().sair();
+                                    if (res) {
+                                        Navigator.of(context).pushReplacementNamed("/");
+                                    }
                                 },
                               )
                             ],

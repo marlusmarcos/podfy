@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "370781310775",
+    "project_id": "podfy-739c5",
+    "storage_bucket": "podfy-739c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370781310775:android:6e9ab5edf0375c6e5d14b2",
+        "android_client_info": {
+          "package_name": "com.example.podfy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370781310775-j0d6epu43saalos90783vrij1f392sf1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtWmn5l5QQLC0X6NJOBNLqYZRySp7WP_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370781310775-j0d6epu43saalos90783vrij1f392sf1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
