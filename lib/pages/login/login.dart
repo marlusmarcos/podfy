@@ -21,6 +21,8 @@ class LoginState extends State<Login> {
   final _key = GlobalKey<FormState>();
   var _data = new AuthenticationFormData();
   bool buttonPressed = false;
+  bool error = false;
+  bool carregando = false;
   late AuthService authService;
 
   LoginState();
@@ -105,6 +107,19 @@ class LoginState extends State<Login> {
                       ],
                     ),
                   ),
+                  error
+                      ? const Center(
+                          child: Text(
+                          'Usuário ou senha inválidos',
+                          style: TextStyle(color: Colors.red),
+                        ))
+                      : carregando
+                          ? const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.purple,
+                              ),
+                            )
+                          : const SizedBox(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 100.0),
                     child: Column(
@@ -116,17 +131,21 @@ class LoginState extends State<Login> {
                           onPressed: () async {
                             setState(() {
                               buttonPressed = true;
+                              error = false;
                             });
-                            if (true) {
+                            if (_key.currentState!.validate()) {
+                              setState(() => carregando = true);
                               var res = await authService.entrar(
                                   _data.username, _data.password);
+                              setState(() => carregando = false);
                               if (res != null) {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => const Home()),
                                 );
-                              }
+                              } else
+                                setState(() => error = true);
                             }
                           },
                         ),
