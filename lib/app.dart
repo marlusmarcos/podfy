@@ -1,6 +1,8 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:podfy/blocs/navigation-bloc.dart';
+import 'package:podfy/data/services/auth_service.dart';
 import 'package:podfy/pages/home/home.dart';
 import 'package:podfy/pages/player/player-browser.dart';
 import 'package:podfy/pages/profile/profile-browser.dart';
@@ -12,6 +14,8 @@ import 'core/constants.dart';
 import 'data/services/podcast_service.dart';
 
 init() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(PodSheetsApp());
 }
 
@@ -21,6 +25,7 @@ class PodSheetsApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NavigationBloc()),
+        ChangeNotifierProvider(create: (_) => AuthService()),
         Provider(create: (_) => PodcastService(Constants.apiUrl + '/podcasts')),
       ],
       child: MaterialApp(
