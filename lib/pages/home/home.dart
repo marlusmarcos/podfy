@@ -23,7 +23,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
   }
 
   Future<List<Podcast>> buscarRecentes() {
@@ -49,7 +48,7 @@ class _HomeState extends State<Home> {
             children: <Widget>[
               const Center(
                 child: Text(
-                  'Olá, Fulano!',
+                  'Seja bem vindo!',
                   style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -61,7 +60,6 @@ class _HomeState extends State<Home> {
                   margin: const EdgeInsets.symmetric(vertical: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Container(
                         margin: const EdgeInsets.only(bottom: 10),
@@ -73,12 +71,12 @@ class _HomeState extends State<Home> {
                               color: Colors.black54),
                         ),
                       ),
-                      Expanded(
-                        child: FutureBuilder<List<Podcast>>(
-                          future: buscarRecentes(),
-                          builder: (ctx, snapshot) {
-                            if (snapshot.hasData && snapshot.data != null) {
-                              return ListView(
+                      FutureBuilder<List<Podcast>>(
+                        future: buscarRecentes(),
+                        builder: (ctx, snapshot) {
+                          if (snapshot.hasData && snapshot.data != null) {
+                            return Expanded(
+                              child: ListView(
                                   physics: const BouncingScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
@@ -87,11 +85,16 @@ class _HomeState extends State<Home> {
                                     return CardButton(
                                       item: podcast,
                                     );
-                                  }).toList());
-                            }
-                            return const CircularProgressIndicator();
-                          },
-                        ),
+                                  }).toList()),
+                            );
+                          }
+                          return Center(
+                            child: Container(
+                                padding: EdgeInsets.symmetric(vertical: 20),
+                                width: 200,
+                                child: const LinearProgressIndicator()),
+                          );
+                        },
                       ),
                     ],
                   )),
