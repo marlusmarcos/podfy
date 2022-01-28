@@ -27,9 +27,6 @@ class _HomeState extends State<Home> {
 
   Future<List<Podcast>> buscarRecentes() async {
     final lista = await podcastService.listarRecentes();
-    setState(() {
-      podcasts = lista;
-    });
     return lista;
   }
 

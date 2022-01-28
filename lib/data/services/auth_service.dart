@@ -5,7 +5,7 @@ import 'package:podfy/data/models/usuario.dart';
 class AuthService extends ChangeNotifier {
   Usuario? _usuarioLogado;
 
-  Usuario? get usuarioLogado => this._usuarioLogado;      
+  Usuario? get usuarioLogado => this._usuarioLogado;
   set usuarioLogado(Usuario? user) {
     _usuarioLogado = user;
     notifyListeners();
@@ -20,7 +20,6 @@ class AuthService extends ChangeNotifier {
       return userCredential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
