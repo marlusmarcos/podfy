@@ -25,8 +25,9 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  Future<List<Podcast>> buscarRecentes() {
-    return podcastService.listarRecentes();
+  Future<List<Podcast>> buscarRecentes() async {
+    final lista = await podcastService.listarRecentes();
+    return lista;
   }
 
   @override
@@ -112,51 +113,56 @@ class _HomeState extends State<Home> {
                             color: Colors.black54),
                       ),
                     ),
-                    GridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisCount: 3,
-                      children: autores.map((author) {
-                        return Container(
-                            color: Colors.deepPurple,
-                            margin: const EdgeInsets.only(right: 5, bottom: 5),
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          AuthorDetails(author: author)),
-                                );
-                              },
-                              splashColor: Colors.white,
-                              child: Container(
-                                alignment: Alignment.bottomCenter,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    colorFilter: ColorFilter.mode(
-                                        Colors.black.withOpacity(0.3),
-                                        BlendMode.dstATop),
-                                    image: NetworkImage(
-                                      "https://picsum.photos/id/${author.id}/400",
+                    autores.length > 0
+                        ? GridView.count(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            crossAxisCount: 3,
+                            children: autores.map((author) {
+                              return Container(
+                                  color: Colors.deepPurple,
+                                  margin: const EdgeInsets.only(
+                                      right: 5, bottom: 5),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                AuthorDetails(author: author)),
+                                      );
+                                    },
+                                    splashColor: Colors.white,
+                                    child: Container(
+                                      alignment: Alignment.bottomCenter,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          colorFilter: ColorFilter.mode(
+                                              Colors.black.withOpacity(0.3),
+                                              BlendMode.dstATop),
+                                          image: NetworkImage(
+                                            "https://picsum.photos/id/${author.id}/400",
+                                          ),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          author.name,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    author.name,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ));
-                      }).toList(),
-                    ),
+                                  ));
+                            }).toList(),
+                          )
+                        : Center(
+                            child: Text('Nenhum autor encontrado'),
+                          )
                   ],
                 ),
               ),

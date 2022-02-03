@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 
 class PodcastService {
   final String baseUrl;
+  Podcast? podcastAtual;
 
-  const PodcastService(this.baseUrl);
+  PodcastService(this.baseUrl);
 
   Future<List<Podcast>> listarRecentes() async {
     try {
