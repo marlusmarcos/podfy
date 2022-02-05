@@ -25,7 +25,7 @@ class PodSheetsApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => NavigationBloc()),
         ChangeNotifierProvider(create: (_) => AuthService()),
-        Provider(create: (_) => PodcastService(Constants.apiUrl + '/podcasts')),
+        ChangeNotifierProvider(create: (_) => PodcastService(Constants.apiUrl + '/podcasts')),
       ],
       child: MaterialApp(
         title: 'Podfy',

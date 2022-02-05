@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:podfy/components/layout/layout.dart';
 import 'package:podfy/components/navbar/navigation-menu.dart';
+import 'package:podfy/data/models/podcast.dart';
+import 'package:podfy/data/services/podcast_service.dart';
 import 'package:provider/provider.dart';
 
 class Audio {
@@ -20,41 +22,23 @@ class SearchBrowser extends StatefulWidget {
 }
 
 class SearchBrowserState extends State<SearchBrowser> {
-  List<Audio> audios = [
-    Audio('PodCast #1', 'Flutter', '3:04'),
-    Audio('PodCast #2', 'React Native', '3:04'),
-    Audio('PodCast #3', 'Front end', '3:04'),
-    Audio('PodCast #4', 'C#', '3:04'),
-    Audio('PodCast #5', 'Xamarin Forms', '3:04'),
-    Audio('PodCast #6', 'Flutter', '3:04'),
-    Audio('PodCast #1', 'Flutter', '3:04'),
-    Audio('PodCast #2', 'React Native', '3:04'),
-    Audio('PodCast #3', 'Front end', '3:04'),
-    Audio('PodCast #4', 'C#', '3:04'),
-    Audio('PodCast #5', 'Xamarin Forms', '3:04'),
-    Audio('PodCast #6', 'Flutter', '3:04'),
-    Audio('PodCast #1', 'Flutter', '3:04'),
-    Audio('PodCast #2', 'React Native', '3:04'),
-    Audio('PodCast #3', 'Front end', '3:04'),
-    Audio('PodCast #4', 'C#', '3:04'),
-    Audio('PodCast #5', 'Xamarin Forms', '3:04'),
-    Audio('PodCast #6', 'Flutter', '3:04'),
-  ];
-  late List<Audio> filteredAudios;
+  List<Podcast> podcasts = [];
+  List<Podcast> filteredAudios = [];
   TextEditingController editingController = TextEditingController();
+  late PodcastService podcastService;
 
   @override
   void initState() {
     super.initState();
-    filteredAudios = audios;
+    filteredAudios = podcasts;
   }
 
   void filterAudios(String query) {
-    List<Audio> _listAux = [];
+    List<Podcast> _listAux = [];
     if (query.isNotEmpty) {
-      audios.forEach((audio) {
-        if (audio.title.toLowerCase().contains(query) ||
-            audio.author.toLowerCase().contains(query)) {
+      podcasts.forEach((audio) {
+        if (audio.titulo.toLowerCase().contains(query) ||
+            audio.autor.toLowerCase().contains(query)) {
           _listAux.add(audio);
         }
       });
@@ -63,13 +47,24 @@ class SearchBrowserState extends State<SearchBrowser> {
       });
     } else {
       setState(() {
-        filteredAudios = audios;
+        filteredAudios = podcasts;
       });
     }
   }
 
+  Future<List<Podcast>> listar() async {
+    setState(() async {
+        podcasts = await podcastService.listarTodos();
+    filteredAudios = podcasts;
+    });
+  
+    return filteredAudios;
+  }
+
   @override
   Widget build(BuildContext context) {
+    podcastService = context.watch<PodcastService>();
+
     return Layout(
       titulo: "Pesquisar",
       child: SingleChildScrollView(
@@ -103,31 +98,42 @@ class SearchBrowserState extends State<SearchBrowser> {
                         width: MediaQuery.of(context).size.width,
                         child: ScrollConfiguration(
                           behavior: const ScrollBehavior(),
-                          child: ListView.builder(
-                            physics: const ScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: filteredAudios.length,
-                            itemBuilder: (context, index) {
-                              return FlatButton(
-                                onPressed: () {},
-                                child: ListTile(
-                                  title: Text(
-                                    filteredAudios[index].title,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(filteredAudios[index].author),
-                                  trailing: Text(
-                                    filteredAudios[index].duration,
-                                    style: const TextStyle(
-                                        color: Colors.deepPurple),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                          child: FutureBuilder(
+                              future: listar(),
+                              builder: (context, sn) {
+                                if (sn.hasData && sn.data != null) {
+                                  return ListView.builder(
+                                    physics: const ScrollPhysics(),
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemCount: filteredAudios.length,
+                                    itemBuilder: (context, index) {
+                                      return FlatButton(
+                                        onPressed: () {},
+                                        child: ListTile(
+                                          title: Text(
+                                            filteredAudios[index].titulo,
+                                            style: const TextStyle(
+                                                color: Colors.deepPurple,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          subtitle:
+                                              Text(filteredAudios[index].autor),
+                                          trailing: Text(
+                                            filteredAudios[index]
+                                                .duracao
+                                                .toString(),
+                                            style: const TextStyle(
+                                                color: Colors.deepPurple),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
+
+                                return Center(child: CircularProgressIndicator(),);
+                              }),
                         ),
                       ),
                     )

@@ -86,7 +86,9 @@ class _HomeState extends State<Home> {
                                     return CardButton(
                                       item: podcast,
                                     );
-                                  }).toList()),
+                                  }).toList(),
+                                  
+                                ),
                             );
                           }
                           return Center(

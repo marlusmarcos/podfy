@@ -131,7 +131,7 @@ class AuthorDetailsState extends State<AuthorDetails> {
                                 ),
                                 subtitle: Text(filteredPodcasts[index].autor),
                                 trailing: Text(
-                                  filteredPodcasts[index].duracao,
+                                  filteredPodcasts[index].duracao.toString(),
                                   style:
                                       const TextStyle(color: Colors.deepPurple),
                                 ),

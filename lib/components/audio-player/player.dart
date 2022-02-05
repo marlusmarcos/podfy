@@ -29,6 +29,7 @@ class PlayerState extends State<Player> {
   @override
   void initState() {
     super.initState();
+    
     audioController = audioPlayer.onAudioPositionChanged.listen((Duration  p) {
       setState(() => audioCurrentDuration = p.inSeconds);
     });
@@ -55,8 +56,7 @@ class PlayerState extends State<Player> {
   }
 
   play() async {
-    final url = FirebaseStorage.instance.ref().child('Happy – MBB (No Copyright Music).mp3');
-    int result = await audioPlayer.play('https://firebasestorage.googleapis.com/v0/b/podfy-739c5.appspot.com/o/Happy%20%E2%80%93%20MBB%20(No%20Copyright%20Music).mp3?alt=media&token=62bcb96c-ece5-49c3-b271-436966a204e8');
+    int result = widget.podcast != null ? await audioPlayer.play(widget.podcast!.link) : 0;
     if (result == 1) {
       setState(() {
         isPlaying = true;
@@ -75,12 +75,13 @@ class PlayerState extends State<Player> {
     return widget.podcast == null ? Text('Nenhum podcast tocando no momento') : Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        Text(widget.podcast!.titulo, style: TextStyle(fontSize: 24),),
         Container(
           margin: const EdgeInsets.all(20),
           height: 300,
           width: 300,
           color: Colors.grey,
-          child: Image.network('https://firebasestorage.googleapis.com/v0/b/podfy-739c5.appspot.com/o/hipsterpontotech-cover.jpeg?alt=media&token=389bc60f-5ab0-47e1-9c04-fba3a93cd853'),
+          child: Image.network(widget.podcast!.imagem),
         ),
         Stack(
           children: [

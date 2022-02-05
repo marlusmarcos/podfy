@@ -1,6 +1,11 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:podfy/blocs/navigation-bloc.dart';
 import 'package:podfy/data/models/podcast.dart';
+import 'package:podfy/data/services/podcast_service.dart';
+import 'package:podfy/pages/player/player-browser.dart';
+import 'package:provider/src/provider.dart';
 
 class CardButton extends StatelessWidget {
   Podcast item;
@@ -16,20 +21,15 @@ class CardButton extends StatelessWidget {
           splashColor: Colors.deepPurple.withAlpha(30),
           child: Container(
               width: 170,
-              height: 120,
+              height: 400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      color: Colors.deepPurple[200],
-                      child: const Icon(
-                        Icons.headset,
-                        size: 48,
-                        color: Colors.white,
-                      ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(child: Image.network(item.imagem)),
                     ),
                   ),
                   Padding(
@@ -55,7 +55,8 @@ class CardButton extends StatelessWidget {
                 ],
               )),
           onTap: () {
-            print('Card tapped.');
+              context.read<PodcastService>().podcastAtual = item;
+              context.read<NavigationBloc>().aoNavegar(2, context);
           },
         ),
       ),

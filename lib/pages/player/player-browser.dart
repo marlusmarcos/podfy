@@ -11,6 +11,10 @@ class PlayerBrowser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(titulo: "Áudio", child: Player(podcast: context.watch<PodcastService>().podcastAtual));
+    return Consumer<PodcastService>(
+      builder: (context, value, child) {
+        return Layout(titulo: "Áudio", child: Player(podcast: value.podcastAtual));
+      }
+    );
   }
 }
