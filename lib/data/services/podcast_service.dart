@@ -8,6 +8,7 @@ class PodcastService extends ChangeNotifier{
   final String baseUrl;
   Podcast? _podcastAtual;
   List<Podcast>? _podcasts;
+  List<Podcast> filteredAudios = [];
 
   PodcastService(this.baseUrl);
 
@@ -20,6 +21,7 @@ class PodcastService extends ChangeNotifier{
   List<Podcast>? get podcasts => _podcasts;
   set podcasts(List<Podcast>? p) {
     _podcasts = p;
+    filteredAudios = _podcasts ?? [];
     notifyListeners();
   }
 
@@ -35,16 +37,33 @@ class PodcastService extends ChangeNotifier{
     }
   }
 
-   Future<List<Podcast>> listarTodos() async {
+   Future<void> listarTodos() async {
     try {
       var url = Uri.parse('$baseUrl/todos');
       var res = await http.get(url);
-      return (jsonDecode(res.body) as List)
+      podcasts =  (jsonDecode(res.body) as List)
           .map((e) => Podcast.fromJson(e))
           .toList();
     } catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  void filterAudios(String query) {
+    List<Podcast> _listAux = [];
+    if (query.isNotEmpty) {
+      podcasts?.forEach((audio) {
+        if (audio.titulo.toLowerCase().contains(query) ||
+            audio.autor.toLowerCase().contains(query)) {
+          _listAux.add(audio);
+        }
+      });
+        filteredAudios = _listAux;
+   
+    } else {
+        filteredAudios = podcasts ?? [];
+    }
+    notifyListeners();
   }
   // TODO: Listar os podcasts de um autor
   // TODO: Listar todos os podcasts para a aba de pesqquisar
